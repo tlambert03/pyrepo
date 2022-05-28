@@ -1,0 +1,22 @@
+{
+  "template": "/Users/talley/python/pyrepo-cookiecutter",
+  "commit": "6ff15ebeeeb05d9f51359adf6e280e5a6a23a81d",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "full_name": "Talley Lambert",
+      "email": "talley.lambert@gmail.com",
+      "github_username": "tlambert03",
+      "project_name": "pyrepo",
+      "project_slug": "pyrepo",
+      "project_short_description": "package description.",
+      "pypi_username": "talley",
+      "version_control": "setuptools-scm",
+      "_copy_without_render": [
+        ".github/workflows/*"
+      ],
+      "_template": "/Users/talley/python/pyrepo-cookiecutter"
+    }
+  },
+  "directory": null
+}
