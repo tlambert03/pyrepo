@@ -74,12 +74,13 @@ def test_bake_and_build(template, run_copier: Callable[..., Path]):
     output = run_copier(template)
 
     with inside_dir(str(output)):
-        run(["git", "init", "-q"], check=True)
-        gitcfg = output / ".git" / "config"
-        gitcfg.touch()
-        gitcfg.write_text("[user]\n\tname = Name\n\temail = email@wp.p\n")
-        run(["git", "add", "."], check=True)
-        run(["git", "commit", "-q", "-m", "init"], check=True)
+        # these are added to _tasks in this personal fork
+        # run(["git", "init", "-q"], check=True)
+        # gitcfg = output / ".git" / "config"
+        # gitcfg.touch()
+        # gitcfg.write_text("[user]\n\tname = Name\n\temail = email@wp.p\n")
+        # run(["git", "add", "."], check=True)
+        # run(["git", "commit", "-q", "-m", "init"], check=True)
         run(["check-manifest"], check=True)
         run(["python", "-m", "build"], check=True)
         assert len(list((output / "dist").iterdir())) == 2
