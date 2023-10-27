@@ -39,10 +39,12 @@ module_name:
   validator: "{% if not module_name.isidentifier() %}Invalid module name{% endif %}"
 
 author_name:
+  when: "{{ mode == 'customize' }}"
   help: Your full name (used in the project metadata)
   default: Talley Lambert
 
 author_email:
+  when: "{{ mode == 'customize' }}"
   help: Your email address (used in the project metadata)
   default: talley.lambert@example.com
   validator: "{% if '@' not in author_email or '.' not in author_email %}Invalid Email{% endif %}"
@@ -73,6 +75,7 @@ git_versioning:
     "Derive from git tags": true
 
 github_username:
+  when: "{{ mode == 'customize' }}"
   help: |
     Your GitHub username/organization name
        (If you plan to put your project on GitHub)
