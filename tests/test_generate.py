@@ -44,8 +44,7 @@ def run_copier(tmp_path: Path):
         cmd = ["copier", "copy", "--force"] if COPIER_V8 else ["copier", "--force"]
         for k, v in kwargs.items():
             cmd.extend(["-d", f"{k}={v}"])
-        cmd.extend([str(template), str(dest)])
-
+        cmd.extend([str(template), str(dest), "--trust"])
         run(cmd, check=True)
         return tmp_path
 
