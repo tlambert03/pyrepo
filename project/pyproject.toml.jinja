@@ -2,8 +2,6 @@
 [build-system]
 requires = ["hatchling"{%- if git_versioning -%}, "hatch-vcs"{%- endif %}]
 build-backend = "hatchling.build"
-# read more about configuring hatch at:
-# https://hatch.pypa.io/latest/config/build/
 
 {%- if git_versioning %}
 
@@ -45,11 +43,8 @@ classifiers = [
 dependencies = []
 
 # https://peps.python.org/pep-0621/#dependencies-optional-dependencies
-# "extras" (e.g. for `pip install .[test]`)
 [project.optional-dependencies]
-# add dependencies used for testing here
 test = ["pytest", "pytest-cov"]
-# add anything else you like to have in your dev environment here
 dev = [
     {%- if use_black %}
     "black",{%- endif %}
@@ -70,14 +65,6 @@ homepage = "https://github.com/{{github_username}}/{{project_name}}"
 repository = "https://github.com/{{github_username}}/{{project_name}}"
 {%- endif %}
 
-# Entry points
-# https://peps.python.org/pep-0621/#entry-points
-# same as console_scripts entry point
-# [project.scripts]
-# {{project_name}}-cli = "{{module_name}}:main_cli"
-
-# [project.entry-points."some.group"]
-# tomatoes = "{{module_name}}:main_tomatoes"
 {% if use_ruff -%}
 # https://github.com/charliermarsh/ruff
 [tool.ruff]
@@ -96,12 +83,9 @@ select = [
     "B",    # flake8-bugbear
     "A001", # flake8-builtins
     "RUF",  # ruff-specific rules
+    "TCH",  # type checking
+    "TID",  # tidy imports
 ]
-# I do this to get numpy-style docstrings AND retain
-# D417 (Missing argument descriptions in the docstring)
-# otherwise, see:
-# https://beta.ruff.rs/docs/faq/#does-ruff-support-numpy-or-google-style-docstrings
-# https://github.com/charliermarsh/ruff/issues/2606
 ignore = [
     "D100", # Missing docstring in public module
     "D107", # Missing docstring in __init__
@@ -128,10 +112,6 @@ disallow_subclassing_any = false
 show_error_codes = true
 pretty = true
 
-# # module specific overrides
-# [[tool.mypy.overrides]]
-# module = ["numpy.*",]
-# ignore_errors = true
 {%- endif %}
 # https://docs.pytest.org/en/6.2.x/customize.html
 [tool.pytest.ini_options]
@@ -152,9 +132,6 @@ exclude_lines = [
 [tool.coverage.run]
 source = ["{{module_name}}"]
 
-# https://github.com/mgedmin/check-manifest#configuration
-# add files that you want check-manifest to explicitly ignore here
-# (files that are in the repo but shouldn't go in the package)
 [tool.check-manifest]
 ignore = [
     ".github_changelog_generator",
