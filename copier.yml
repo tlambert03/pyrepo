@@ -40,11 +40,11 @@ module_name:
 
 author_name:
   help: Your full name (used in the project metadata)
-  default: Your Name
+  default: Talley Lambert
 
 author_email:
   help: Your email address (used in the project metadata)
-  default: first.last@example.com
+  default: talley.lambert@example.com
   validator: "{% if '@' not in author_email or '.' not in author_email %}Invalid Email{% endif %}"
 
 project_short_description:
@@ -76,7 +76,7 @@ github_username:
   help: |
     Your GitHub username/organization name
        (If you plan to put your project on GitHub)
-  default: ""
+  default: tlambert03
 
 test_pre_release:
   when: "{{ mode == 'customize' }}"
