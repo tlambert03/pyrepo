@@ -15,7 +15,6 @@ on:
   {%- endif %}
 
 {% raw -%}
-# cancel in-progress runs that use the same workflow and branch
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -24,8 +23,6 @@ concurrency:
 jobs:
 {%- if mode != 'simple' %}
   check-manifest:
-    # check-manifest is a tool that checks that all files in version control are
-    # included in the sdist (unless explicitly excluded)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -64,7 +61,6 @@ jobs:
         run: pytest --color=yes --cov --cov-report=xml --cov-report=term-missing
       {%- if test_pre_release %}{% raw %}
 
-      # If something goes wrong with --pre tests, we can open an issue in the repo
       - name: 📝 Report --pre Failures
         if: failure() && github.event_name == 'schedule'
         uses: JasonEtco/create-an-issue@v2
@@ -89,10 +85,7 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      # IMPORTANT: this permission is mandatory for trusted publishing on PyPi
-      # see https://docs.pypi.org/trusted-publishers/
       id-token: write
-      # This permission allows writing releases
       contents: write
 
     steps:
