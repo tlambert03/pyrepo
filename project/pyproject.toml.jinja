@@ -2,7 +2,6 @@
 [build-system]
 requires = ["hatchling"{%- if git_versioning -%}, "hatch-vcs"{%- endif %}]
 build-backend = "hatchling.build"
-
 {%- if git_versioning %}
 
 # https://hatch.pypa.io/latest/config/metadata/
@@ -10,6 +9,8 @@ build-backend = "hatchling.build"
 source = "vcs"
 {%- endif %}
 
+# read more about configuring hatch at:
+# https://hatch.pypa.io/latest/config/build/
 [tool.hatch.build.targets.wheel]
 only-include = ["src"]
 sources = ["src"]
@@ -29,12 +30,21 @@ license = { text = "{{ project_license }}" }
 authors = [{ name = "{{ author_name }}", email = "{{ author_email }}" }]
 classifiers = [
     "Development Status :: 3 - Alpha",
+    {%- if project_license == "MIT" %}
+    "License :: OSI Approved :: MIT License",
+    {%- elif project_license == "Apache-2.0" %}
+    "License :: OSI Approved :: Apache Software License",
+    {%- elif project_license == "BSD-3-Clause" %}
+    "License :: OSI Approved :: BSD License",
+    {%- elif project_license == "GPL-3.0" %}
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    {%- endif %}
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
-    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python :: 3.12",
     "Typing :: Typed",
 ]
 dependencies = []
@@ -49,7 +59,7 @@ dev = [
     {%- if use_mypy %}
     "mypy",{%- endif %}
     "pdbpp",  # https://github.com/pdbpp/pdbpp
-    {%- if use_precommit %}
+    {%- if use_pre_commit %}
     "pre-commit",{%- endif %}
     "rich",  # https://github.com/Textualize/rich
     {%- if use_ruff %}
@@ -60,15 +70,18 @@ dev = [
 {% if github_username -%}
 homepage = "https://github.com/{{github_username}}/{{project_name}}"
 repository = "https://github.com/{{github_username}}/{{project_name}}"
+{%- else -%}
+# homepage = ""
+# repository = ""
 {%- endif %}
 
 {% if use_ruff -%}
-# https://github.com/charliermarsh/ruff
+# https://docs.astral.sh/ruff
 [tool.ruff]
 line-length = 88
 target-version = "py38"
 src = ["src"]
-# https://beta.ruff.rs/docs/rules/
+# https://docs.astral.sh/ruff/rules
 select = [
     "E",    # style errors
     "W",    # style warnings
@@ -80,8 +93,8 @@ select = [
     "B",    # flake8-bugbear
     "A001", # flake8-builtins
     "RUF",  # ruff-specific rules
-    "TCH",  # type checking
-    "TID",  # tidy imports
+    "TCH",  # flake8-type-checking
+    "TID",  # flake8-tidy-imports
 ]
 ignore = [
     "D100", # Missing docstring in public module
@@ -126,15 +139,16 @@ exclude_lines = [
     "except ImportError",
     "\\.\\.\\.",
     "raise NotImplementedError()",
+    "pass",
 ]
+show_missing = true
+
 [tool.coverage.run]
 source = ["{{module_name}}"]
 
 [tool.check-manifest]
 ignore = [
-    ".github_changelog_generator",
     ".pre-commit-config.yaml",
     ".ruff_cache/**/*",
-    "setup.py",
     "tests/**/*",
 ]
