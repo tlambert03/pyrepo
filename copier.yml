@@ -46,7 +46,7 @@ author_name:
 author_email:
   when: "{{ mode == 'customize' }}"
   help: Your email address (used in the project metadata)
-  default: talley.lambert@example.com
+  default: talley.lambert@gmail.com
   validator: "{% if '@' not in author_email or '.' not in author_email %}Invalid Email{% endif %}"
 
 project_short_description:
