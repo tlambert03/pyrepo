@@ -46,14 +46,15 @@ def run_copier(tmp_path: Path):
             cmd.extend(["-d", f"{k}={v}"])
         cmd.extend([str(template), str(dest), "--trust"])
         run(cmd, check=True)
-        if git_init:
-            with inside_dir(str(tmp_path)):
-                run(["git", "init", "-q"], check=True)
-                gitcfg = tmp_path / ".git" / "config"
-                gitcfg.touch()
-                gitcfg.write_text("[user]\n\tname = Name\n\temail = email@wp.p\n")
-                run(["git", "add", "."], check=True)
-                run(["git", "commit", "-q", "-m", "init"], check=True)
+        # these are added to _tasks in this personal fork
+        # if git_init:
+        #     with inside_dir(str(tmp_path)):
+        #         run(["git", "init", "-q"], check=True)
+        #         gitcfg = tmp_path / ".git" / "config"
+        #         gitcfg.touch()
+        #         gitcfg.write_text("[user]\n\tname = Name\n\temail = email@wp.p\n")
+        #         run(["git", "add", "."], check=True)
+        #         run(["git", "commit", "-q", "-m", "init"], check=True)
 
         return tmp_path
 
