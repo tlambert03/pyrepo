@@ -56,7 +56,7 @@ jobs:
         run: uv sync --no-dev --group test
 
       - name: 🧪 Run Tests
-        run: uv run pytest --cov --cov-report=xml --cov-report=term-missing{% endraw %}
+        run: uv run --no-sync coverage run -p -m pytest -v{% endraw %}
       {%- if test_pre_release %}{% raw %}
 
       # If something goes wrong with --pre tests, we can open an issue in the repo
@@ -74,10 +74,19 @@ jobs:
           update_existing: true{% endraw %}
       {%- endif %}{% raw %}
 
-      - name: Coverage
-        uses: codecov/codecov-action@v5
-        # with:
-        #   token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: covreport-${{ matrix.platform }}-py${{ matrix.python-version }}
+          path: ./.coverage*
+          include-hidden-files: true
+
+  upload_coverage:
+    if: always()
+    needs: [test]
+    uses: pyapp-kit/workflows/.github/workflows/upload-coverage.yml@v2
+    secrets:
+      codecov_token: ${{ secrets.CODECOV_TOKEN }}
 
   build-and-inspect-package:
     name: Build & inspect package.
