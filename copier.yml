@@ -92,6 +92,7 @@ minimum_python:
     🐍 3.11: 11
     🐍 3.12: 12
     🐍 3.13: 13
+    🐍 3.14: 14
 
 test_pre_release:
   when: "{{ mode == 'customize' }}"
